@@ -1,26 +1,10 @@
 import React, { useState } from 'react';
 import { 
-  Container, 
-  Title, 
-  Button, 
-  Accordion, 
-  TextInput, 
-  Textarea,
-  Group,
-  Stack,
-  Paper,
-  Modal,
-  Text,
-  Loader,
-  Center,
-  ActionIcon,
-  Flex,
-  Badge,
-  Card
+  Container, Title, Button, Accordion, TextInput, Textarea, Group, Stack, Paper, Modal, Text, Loader, Center, ActionIcon, Flex, Badge, Card
 } from '@mantine/core';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IconEdit, IconTrash, IconPlus } from '@tabler/icons-react';
-import { useSelector } from 'react-redux';
+import useAuthStore from '../store/useAuth';
 import axios from 'axios';
 
 const API = 'https://faq-crud.onrender.com/api/faqs';
@@ -31,7 +15,7 @@ const Homepage = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   
-  const { isAuth, user } = useSelector(state => state.auth);
+  const { isAuth, user } = useAuthStore();
   const queryClient = useQueryClient();
 
   const { data: faqs = [], isLoading } = useQuery({
@@ -94,7 +78,7 @@ const Homepage = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Sen o‘chirmoqchimisan?')) {
+    if (window.confirm('Sen o\'chirmoqchimisan?')) {
       deleteMutation.mutate(id);
     }
   };
@@ -125,7 +109,6 @@ const Homepage = () => {
     <Container size="md" py="xl">
       <Stack spacing="xl">
         
-        {/* HEADER */}
         <Flex justify="space-between" align="center">
           <Flex align="center" gap="md">
             <Title
@@ -141,25 +124,24 @@ const Homepage = () => {
 
             {isAuth && user && (
               <Badge color="teal" size="lg" radius="lg" variant="filled">
-                {user.name}
+                {user.firstName}
               </Badge>
             )}
           </Flex>
 
           {isAuth && (
             <Button 
-              leftIcon={<IconPlus size={18} />} 
+              leftSection={<IconPlus size={18} />} 
               onClick={handleAddNew}
               radius="md"
               size="md"
             >
-              Qo‘shish
+              Qo'shish
             </Button>
           )}
         </Flex>
 
         
-        {/* FAQ LIST */}
         {faqs.length === 0 ? (
           <Paper p="xl" withBorder radius="lg" shadow="sm">
             <Text align="center" color="dimmed">FAQ hali mavjud emas</Text>
@@ -219,7 +201,6 @@ const Homepage = () => {
       </Stack>
 
       
-      {/* MODAL */}
       <Modal
         opened={opened}
         onClose={handleClose}
