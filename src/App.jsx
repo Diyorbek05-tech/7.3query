@@ -1,17 +1,16 @@
-import  Layout  from './Components/Layout'
 import React from 'react'
+import Homepage from './pages/HomePage.jsx'
+import Layout from './Components/Layout.jsx'
 import { Route, Routes } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-
 const App = () => {
   return (
-    <>
-      <Routes>
+    <div>
+       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Homepage />} />
         </Route>
-    </Routes>
-    </>
+      </Routes>
+    </div>
   )
 }
 
