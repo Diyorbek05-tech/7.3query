@@ -14,7 +14,12 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      username: "emilys",
+      password: "emilyspass",
+    }
+  })
 
   const { mutate: loginMut } = useMutation({
     mutationFn: async (body) => {
@@ -39,12 +44,11 @@ const Login = () => {
     })
   }
 
-  // dynamic styles
   const usernameValue = watch("username", "");
   const passwordValue = watch("password", "");
 
   const invalidStyle = {
-    backgroundColor: "#ffe6e6",       // pastel red
+    backgroundColor: "#ffe6e6",
     borderColor: "#ff4d4d",
     transition: "0.2s ease",
   };
@@ -60,8 +64,6 @@ const Login = () => {
         <h1 style={{ textAlign: "center", marginBottom: 20 }}>Login</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          
-          {/* USERNAME */}
           <Input
             placeholder='Username'
             {...register("username", {
@@ -71,13 +73,12 @@ const Login = () => {
                 message: "Kamida 5 belgi kiriting"
               }
             })}
-            style={usernameValue.length < 5 && usernameValue.length > 0 ? invalidStyle : validStyle}
+            style={usernameValue.length < 5 ? invalidStyle : validStyle}
           />
           {errors.username && (
             <Text size="sm" c="red" mt={5}>{errors.username.message}</Text>
           )}
 
-          {/* PASSWORD */}
           <PasswordInput
             placeholder="Parol"
             {...register("password", {
@@ -88,13 +89,12 @@ const Login = () => {
               }
             })}
             mt="sm"
-            style={passwordValue.length < 5 && passwordValue.length > 0 ? invalidStyle : validStyle}
+            style={passwordValue.length < 5 ? invalidStyle : validStyle}
           />
           {errors.password && (
             <Text size="sm" c="red" mt={5}>{errors.password.message}</Text>
           )}
 
-          {/* SUBMIT */}
           <Button
             fullWidth
             type="submit"
