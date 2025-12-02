@@ -1,4 +1,5 @@
 import { Button, Container, Input, PasswordInput, Text, Paper } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
 import { useMutation } from '@tanstack/react-query'
 import React from 'react'
 import { API_DUMMY } from '../api/API'
@@ -34,12 +35,19 @@ const Login = () => {
     loginMut(data, {
       onSuccess: (res) => {
         login(res);
+
+        notifications.show({
+          title: "Muvaffaqiyatli!",
+          message: "Tizimga kira oldingiz 💜",
+          color: "green",
+        });
       },
       onError: (err) => {
         notifications.show({
-          title: err.response.data.message || 'Xatolik',
-          color: 'red',
-        })
+          title: "Xatolik!",
+          message: err.response?.data?.message || "Login yoki parol noto'g'ri",
+          color: "red",
+        });
       }
     })
   }
@@ -68,10 +76,7 @@ const Login = () => {
             placeholder='Username'
             {...register("username", {
               required: "Username majburiy",
-              minLength: {
-                value: 5,
-                message: "Kamida 5 belgi kiriting"
-              }
+              minLength: { value: 5, message: "Kamida 5 belgi kiriting" }
             })}
             style={usernameValue.length < 5 ? invalidStyle : validStyle}
           />
@@ -83,10 +88,7 @@ const Login = () => {
             placeholder="Parol"
             {...register("password", {
               required: "Parol majburiy",
-              minLength: {
-                value: 5,
-                message: "Parol kamida 5 belgidan iborat bo‘lishi kerak"
-              }
+              minLength: { value: 5, message: "Kamida 5 belgi kiriting" }
             })}
             mt="sm"
             style={passwordValue.length < 5 ? invalidStyle : validStyle}
